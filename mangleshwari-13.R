@@ -1,18 +1,5 @@
 #sol 2
 
-N = 25
-lambda_1 = 0.15
-lambda_2 = 0.16
-lambda_3 = 0.18
-
-U1 <- -log(runif(N)) / lambda_1
-U2 <- -log(runif(N)) / lambda_2
-U3 <- -log(runif(N)) / lambda_3
-  
-X <- pmin(U1, U3)
-Y <- pmin(U2, U3)
-
-
 #------------------------------------------------------
 mle_gradient <- function( X, Y, lr = 0.001, tol = 1e-6, max_iter = 5000) {
   
@@ -142,7 +129,28 @@ em_algorithm <- function(X, Y, tol = 1e-6, max_iter = 1000) {
 }
 #------------------------------------------------------------
 
-set.seed(123)
+N = 25
+lambda_1 = 0.15
+lambda_2 = 0.16
+lambda_3 = 0.18
+
+U1 <- -log(runif(N)) / lambda_1
+U2 <- -log(runif(N)) / lambda_2
+U3 <- -log(runif(N)) / lambda_3
+
+X <- pmin(U1, U3)
+Y <- pmin(U2, U3)
+
+mle_gradient(X, Y)
+em_algorithm(X, Y)
+
+
+#------------------------------------------------------------
+
+N = 25
+lambda_1 = 0.15
+lambda_2 = 0.16
+lambda_3 = 0.18
 
 reps <- 1000
 
@@ -158,34 +166,24 @@ for(r in 1:reps) {
   
   X <- pmin(U1, U3)
   Y <- pmin(U2, U3)
-  
+
   # ---- Store estimates ----
   est_grad[r, ] <- mle_gradient(X, Y)
   est_em[r, ]   <- em_algorithm(X, Y)
 }
 
-#---------------------------------------------------------
-
-colMeans(est_grad)
-colMeans(est_em)
-colMeans((est_grad - true)^2)
-colMeans((est_em - true)^2)
-
-lambda_1 = 0.15
-lambda_2 = 0.16
-lambda_3 = 0.18
-
-U1 <- -log(runif(N)) / lambda_1
-U2 <- -log(runif(N)) / lambda_2
-U3 <- -log(runif(N)) / lambda_3
-
-X <- pmin(U1, U3)
-Y <- pmin(U2, U3)
+true1 = colMeans(est_grad)
+true2 = colMeans(est_em)
+colMeans((est_grad - true1)^2)
+colMeans((est_em - true2)^2)
 
 
 #--------------------------------------------------------------
 
 N <- 50
+lambda_1 = 0.15
+lambda_2 = 0.16
+lambda_3 = 0.18
 
 est_grad <- matrix(0, reps, 3)
 est_em   <- matrix(0, reps, 3)
@@ -203,8 +201,113 @@ for(r in 1:reps) {
   est_em[r, ]   <- em_algorithm(X, Y)
 }
 
-avg_grad_50 <- colMeans(est_grad)
-avg_em_50   <- colMeans(est_em)
+true1 = colMeans(est_grad)
+true2 = colMeans(est_em)
+colMeans((est_grad - true1)^2)
+colMeans((est_em - true2)^2)
 
-mse_grad_50 <- colMeans((est_grad - true)^2)
-mse_em_50   <- colMeans((est_em - true)^2)
+#-------------------------------------------------------------
+ N <- 75
+lambda_1 = 0.15
+lambda_2 = 0.16
+lambda_3 = 0.18
+
+est_grad <- matrix(0, reps, 3)
+est_em   <- matrix(0, reps, 3)
+
+for(r in 1:reps) {
+  
+  U1 <- -log(runif(N)) / lambda_1
+  U2 <- -log(runif(N)) / lambda_2
+  U3 <- -log(runif(N)) / lambda_3
+  
+  X <- pmin(U1, U3)
+  Y <- pmin(U2, U3)
+  
+  est_grad[r, ] <- mle_gradient(X, Y)
+  est_em[r, ]   <- em_algorithm(X, Y)
+}
+
+true1 = colMeans(est_grad)
+true2 = colMeans(est_em)
+colMeans((est_grad - true1)^2)
+colMeans((est_em - true2)^2)
+
+#-----------------------------------------------------------------
+N <- 25
+lambda_1 = 0.2
+lambda_2 = 0.2
+lambda_3 = 0.25
+
+est_grad <- matrix(0, reps, 3)
+est_em   <- matrix(0, reps, 3)
+
+for(r in 1:reps) {
+  
+  U1 <- -log(runif(N)) / lambda_1
+  U2 <- -log(runif(N)) / lambda_2
+  U3 <- -log(runif(N)) / lambda_3
+  
+  X <- pmin(U1, U3)
+  Y <- pmin(U2, U3)
+  
+  est_grad[r, ] <- mle_gradient(X, Y)
+  est_em[r, ]   <- em_algorithm(X, Y)
+}
+
+true1 = colMeans(est_grad)
+true2 = colMeans(est_em)
+colMeans((est_grad - true1)^2)
+colMeans((est_em - true2)^2)
+#------------------------------------------------------------------
+N <- 50
+lambda_1 = 0.2
+lambda_2 = 0.2
+lambda_3 = 0.25
+
+est_grad <- matrix(0, reps, 3)
+est_em   <- matrix(0, reps, 3)
+
+for(r in 1:reps) {
+  
+  U1 <- -log(runif(N)) / lambda_1
+  U2 <- -log(runif(N)) / lambda_2
+  U3 <- -log(runif(N)) / lambda_3
+  
+  X <- pmin(U1, U3)
+  Y <- pmin(U2, U3)
+  
+  est_grad[r, ] <- mle_gradient(X, Y)
+  est_em[r, ]   <- em_algorithm(X, Y)
+}
+
+true1 = colMeans(est_grad)
+true2 = colMeans(est_em)
+colMeans((est_grad - true1)^2)
+colMeans((est_em - true2)^2)
+#---------------------------------------------------------------
+N <- 75
+lambda_1 = 0.2
+lambda_2 = 0.2
+lambda_3 = 0.25
+
+est_grad <- matrix(0, reps, 3)
+est_em   <- matrix(0, reps, 3)
+
+for(r in 1:reps) {
+  
+  U1 <- -log(runif(N)) / lambda_1
+  U2 <- -log(runif(N)) / lambda_2
+  U3 <- -log(runif(N)) / lambda_3
+  
+  X <- pmin(U1, U3)
+  Y <- pmin(U2, U3)
+  
+  est_grad[r, ] <- mle_gradient(X, Y)
+  est_em[r, ]   <- em_algorithm(X, Y)
+}
+
+true1 = colMeans(est_grad)
+true2 = colMeans(est_em)
+colMeans((est_grad - true1)^2)
+colMeans((est_em - true2)^2)
